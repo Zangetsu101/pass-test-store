@@ -30,11 +30,23 @@ The encrypted fixtures cover nested directories and several username formats:
 cards/{mastercard,visa}
 dev/{github.com,gitlab.com,npmjs.com}
 entertainment/{netflix.com,spotify.com}
-finance/{chase.com,paypal.com,wise.com}
+finance/{chase.com,coinbase.com,paypal.com,wise.com}
+otp/google.com
 shopping/{amazon.com,etsy.com}
 travel/{airbnb.com,uber.com}
-work/{linear.app,notion.so,slack.com}
+work/{aws.amazon.com,linear.app,notion.so,okta.com,slack.com}
 ```
+
+Four entries have an `otpauth://` line in the format of the [`pass-otp`](https://github.com/tadfisher/pass-otp) extension. The `otp` scenario of `android-pass-store` opens them:
+
+| Entry | Content |
+| --- | --- |
+| `work/aws.amazon.com/alex.morgan` | Password, TOTP line, URL and account ID |
+| `otp/google.com/alex.morgan` | TOTP line only, in a separate `otp/` folder |
+| `work/okta.com/alex.morgan` | Password, `hotp` line and URL. The app does not support `hotp`. |
+| `finance/coinbase.com/alex.morgan` | Password, TOTP line and URL. The secret has a typo (`0` and `1` are not base32), so the app cannot parse the line. |
+
+The TOTP secrets are random test values. They use SHA1, 6 digits and a period of 30 seconds.
 
 All credentials are fake and exist solely for testing.
 
